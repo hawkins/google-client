@@ -1,6 +1,9 @@
 # Node
 node_modules
 
+# Compiled source
+lib/*.js
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
