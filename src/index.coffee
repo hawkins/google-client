@@ -22,21 +22,27 @@ googleColors = ->
     chalk.green
     chalk.red
   ]
-  colored = (gcolors[i % gcolors.length](arguments[i]) for i in [0 .. arguments.length - 1])
+  if arguments[1]?
+    colored = (gcolors[i % gcolors.length](arguments[i]) for i in [0 .. arguments.length - 1])
+  else
+    colored = (gcolors[i % gcolors.length](arguments[0][i]) for i in [0 .. arguments[0].length - 1])
   colored
 
+# TODO: Add more operators from: https://support.google.com/websearch/answer/2466433?hl=en
 options = ->
   op =
     query: ''
     lucky: false
     chrome: false
     results: 10
+    excludes: []
+    site: ''
   skip = false
   # Check arguments
   process.argv.forEach (val, index, array) ->
     # Skip argument if necessary
-    if skip
-      skip = false
+    if skip > 0
+      --skip
       return
 
     # Check for flags
@@ -48,9 +54,15 @@ options = ->
       return
     if val.indexOf('-r') == 0 or val.indexOf('--results') == 0
       op.results = array[index + 1]
-      # Grab the next argument
-      skip = true
-      # Skip next argument
+      skip = 1
+      return
+    if val.indexOf('-s') == 0 or val.indexOf('--site') == 0
+      op.site = array[index + 1]
+      skip = 1
+      return
+    if val.indexOf('-x') == 0 or val.indexOf('--exclude') == 0
+      op.excludes.push array[index + 1]
+      skip = 1
       return
 
     # If we're still looking at this arg, add it to query
@@ -72,42 +84,51 @@ schema = properties: selection:
 links = []
 
 if !options.query
-  console.error error('No query provided')
+  console.error error 'No query provided'
   process.exit 1
 
-google options.query, (err, res) ->
+# Expand on query
+query = options.query
+if options.excludes.length > 0
+  query = query + (' -' + options.excludes[i] for i in [0 .. options.excludes.length - 1]).join('')
+if options.site
+  query = query + " site:#{options.site}"
+
+google query, (err, res) ->
   if err
-    console.error error(err)
+    console.error error err
     process.exit 1
 
   if options.chrome
-    # Open search page in browser
     open res.url
   else
-    console.log googleColors('G', 'o', 'o', 'g', 'l', 'e').join('') + ' Search results for ' + options.query
+    console.log googleColors('Google').join('') + ' Search results for' + primary(query)
 
     # Print links to console
-    for i in [0 .. res.links.length]
+    limit = if res.links.length > options.results then options.results - 1 else res.links.length - 1
+    for i in [0 .. limit]
       link = res.links[i]
-      console.log tertiary(' [') + primary(i + 1) + tertiary('] :: ') + secondary(link.title) + tertiary('\n\u0009 => ') + tertiary(link.href)
+      try
+        console.log tertiary(' [') + primary(i + 1) + tertiary('] :: ') + secondary(link.title) + tertiary('\n\u0009 => ') + tertiary(link.href)
+      catch err
+        console.error error err
       links.push res.links[i].href
 
     # If you're feeling lucky, open first link
     if options.lucky
-      console.log 'Opening ' + links[0]
-      open links[0]
-      process.exit 0
+      console.log "Opening #{links[0]}"
+      return open links[0]
 
     # Otherwise, prompt for selection
     (getSelection = ->
       prompt.get schema, (err, res) ->
         if err
-          console.error error(err)
+          console.error error err
           process.exit 2
         # Open selection in browser
-        if res.selection < links.length
-          open links[res.selection - 1]
+        if res.selection <= links.length
+          return open links[res.selection - 1]
         else
-          console.error error('Selection is out of bounds')
+          console.error error 'Selection is out of bounds'
           getSelection()
       )()

@@ -1,7 +1,7 @@
 {
   "name": "google-client",
-  "version": "0.0.3",
-  "description": "Command line interface for google searches",
+  "version": "0.0.4",
+  "description": "Command line interface for Google searches",
   "license": "MIT",
   "repository": "hawkins/google-client",
   "author": {
@@ -9,10 +9,10 @@
     "url": "http://hawkins.github.io/"
   },
   "bin": {
-    "google": "./lib/index.js"
+    "google": "./dist/index.js"
   },
   "files": [
-    "lib/index.js"
+    "dist/index.js"
   ],
   "scripts": {
     "pretest": "npm run compile",

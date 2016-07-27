@@ -1,8 +1,10 @@
 # Node
 node_modules
+*.log
 
 # Compiled source
-lib/*.js
+lib/index.js
+dist/*.js
 
 # Windows image file caches
 Thumbs.db
