@@ -26,7 +26,7 @@ googleColors = ->
     colored = (gcolors[i % gcolors.length](arguments[i]) for i in [0 .. arguments.length - 1])
   else
     colored = (gcolors[i % gcolors.length](arguments[0][i]) for i in [0 .. arguments[0].length - 1])
-  colored
+  colored.join ''
 
 # TODO: Add more operators from: https://support.google.com/websearch/answer/2466433?hl=en
 options = ->
@@ -102,7 +102,11 @@ google query, (err, res) ->
   if options.chrome
     open res.url
   else
-    console.log googleColors('Google').join('') + ' Search results for' + primary(query)
+    if res.links.length > 0
+      console.log googleColors('Google') + ' Search results for' + primary(query)
+    else
+      console.error googleColors('Google') + error(' Search was unable to find anything!')
+      process.exit 3
 
     # Print links to console
     limit = if res.links.length > options.results then options.results - 1 else res.links.length - 1

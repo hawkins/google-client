@@ -5,4 +5,5 @@ task 'build', 'Build project from src/*.coffee to dist/*.js', ->
     throw err if err
     console.log stdout + stderr
     shebang = "#!/usr/bin/env node"
-    fs.writeFileSync('dist/index.js', [shebang, fs.readFileSync('dist/index.js')].join('\n'));
+    {code} = require('uglify-js').minify 'dist/index.js'
+    fs.writeFileSync('dist/index.js', [shebang, code].join('\n'));

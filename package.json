@@ -37,6 +37,7 @@
     "prompt": "^1.0.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0"
+    "coffee-script": "^1.10.0",
+    "uglify-js": "^2.7.0"
   }
 }

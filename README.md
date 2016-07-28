@@ -1,14 +1,18 @@
 # google-client
 
-Simple implementation of Google search for command line.
+A Node command line interface for performing Google searches
 
-This is a third party application not in affiliation with Google.
+[![NPM](https://nodei.co/npm/google-client.png)](https://nodei.co/npm/google-client/)
 
-## Disclaimer
+![Screenshot](https://github.com/hawkins/google-client/blob/master/img/screenshot.png)
+
+### Disclaimer
 
 This is currently in an early access build.
 As such, behavior may not always be as expected.
 Please open an issue if you experience any bugs.
+
+This is a third party application not in affiliation with Google.
 
 ## Installation
 
@@ -16,13 +20,15 @@ Please open an issue if you experience any bugs.
 $ npm install google-client -g
 ```
 
+## Usage
+
 Run the command line:
 
 ```bash
 $ google [options] query
 ```
 
-## Flags
+### Flags
 
 We can use the following arguments to control the search:
 
