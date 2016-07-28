@@ -76,8 +76,8 @@ options = options()
 google.resultsPerPage = options.results
 
 schema = properties: selection:
-  pattern: /^\d+$/
-  message: 'Selection must be a number'
+  pattern: /^\d(\s+\d\s*)*$/
+  message: 'Selection must be one or more numbers'
   description: chalk.white('Link number: ')
   required: true
 
@@ -129,10 +129,13 @@ google query, (err, res) ->
         if err
           console.error error err
           process.exit 2
-        # Open selection in browser
-        if res.selection <= links.length
-          return open links[res.selection - 1]
-        else
-          console.error error 'Selection is out of bounds'
-          getSelection()
+
+        selections = res.selection.split(/\s+/g)
+        selections.forEach (val, index, array) ->
+          # Open selection in browser
+          if selections[index] <= links.length
+            open links[selections[index] - 1]
+          else
+            console.error error 'Selection is out of bounds'
+            getSelection()
       )()
