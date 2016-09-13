@@ -1,5 +1,5 @@
 # Import modules
-open   = require 'open'
+open   = require 'opn'
 prompt = require 'prompt'
 google = require 'google'
 chalk  = require 'chalk'
