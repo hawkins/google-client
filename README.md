@@ -36,9 +36,9 @@ We can use the following arguments to control the search:
 |----------------|------------------------------------------------|------:|
 |  -c / --chrome | Open in search page in browser                 | false |
 |  -l / --lucky  | (I'm feeling lucky) open first link in browser | false |
-|  -r / --results [RESULTS] | Specify number of results | 10 |
-| -x / --exclude [ITEM] | Exclude item from search results (can be used more than once) | none |
-| -s / --site [SITE] | Filter by results found from this site | none |
+|  -r / --results <RESULTS> | Specify number of results | 10 |
+| -x / --exclude <ITEM> | Exclude item from search results (can be used more than once) | none |
+| -s / --site <SITE> | Filter by results found from this site | none |
 
 ## Examples usage
 
@@ -67,6 +67,7 @@ $ google -s amazon.com oculus rift $600
 
 ## Changelog
 
+ - **0.0.5** - Fix null href links
  - **0.0.4** - Add site & exclude flags and colors
  - **0.0.3** - Corrected query parameter
  - **0.0.2** - Minor text fixes
