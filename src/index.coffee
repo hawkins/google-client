@@ -110,12 +110,12 @@ google query, (err, res) ->
 
     # Print links to console
     limit = if res.links.length > options.results then options.results - 1 else res.links.length - 1
+    j = 1
     for i in [0 .. limit]
       link = res.links[i]
-      try
-        console.log tertiary(' [') + primary(i + 1) + tertiary('] :: ') + secondary(link.title) + tertiary('\n\u0009 => ') + tertiary(link.href)
-      catch err
-        console.error error err
+      if link.title && link.href
+        console.log tertiary(' [') + primary(j) + tertiary('] :: ') + secondary(link.title) + tertiary('\n\u0009 => ') + tertiary(link.href)
+        j += 1
       links.push res.links[i].href
 
     # If you're feeling lucky, open first link

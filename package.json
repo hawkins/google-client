@@ -1,6 +1,6 @@
 {
   "name": "google-client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Command line interface for Google searches",
   "license": "MIT",
   "repository": "hawkins/google-client",
@@ -15,9 +15,9 @@
     "dist/index.js"
   ],
   "scripts": {
-    "pretest": "npm run compile",
-    "prepublish": "npm run compile",
-    "compile": "cake build"
+    "pretest": "npm run build",
+    "prepublish": "npm run build",
+    "build": "cake build"
   },
   "keywords": [
     "google",
